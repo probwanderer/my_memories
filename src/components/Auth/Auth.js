@@ -8,14 +8,25 @@ import { useHistory } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { GoogleLogin,googleLogout } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
+import {signin,signup} from '../../actions/auth'
+const initialState = {firstName: '', lastName: '', email:'', password:'', confirmPassword:'' };
 function Auth() {
     const classes = useStyles();
     const [isSignup,setIsSignup] = useState(false);
     const [showPassword,setShowPassword]= useState(false);
+    const [formData, setFormData]= useState(initialState);
     const dispatch = useDispatch();
     const history = useHistory();
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(isSignup){
+            dispatch(signup(formData,history));
+        }else{
+            dispatch(signin(formData,history))
+        }
+    }
+    const handleChange = (e) => {
+        setFormData({...formData,[e.target.name]:e.target.value});
     }
     const googleSuccess = async (res)=>{
         const token = res?.credential;
@@ -34,9 +45,7 @@ function Auth() {
         console.log("Google Sign In was unsuccessful. Try again later");
     };
     const handleShowPassword = () =>setShowPassword((prevShowPassword)=>!prevShowPassword)
-    const handleChange = () => {
-
-    }
+    
     const switchMode = () => {
         setIsSignup((prevIsSignup)=>!prevIsSignup);
         handleShowPassword(false);
@@ -54,7 +63,7 @@ function Auth() {
                         isSignup&&(
                             <>
                                 <Input name="firstname" label="First Name" handleChange={handleChange} autoFocus half/>
-                                <Input name="firstname" label="First Name" handleChange={handleChange}  half/>
+                                <Input name="lastname" label="Last Name" handleChange={handleChange}  half/>
                             </>
                         )}
                         <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
