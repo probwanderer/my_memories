@@ -22,7 +22,7 @@ function Auth() {
         if(isSignup){
             dispatch(signup(formData,history));
         }else{
-            dispatch(signin(formData,history))
+            dispatch(signin(formData,history));
         }
     }
     const handleChange = (e) => {
@@ -48,7 +48,7 @@ function Auth() {
     
     const switchMode = () => {
         setIsSignup((prevIsSignup)=>!prevIsSignup);
-        handleShowPassword(false);
+        setShowPassword(false);
     }
   return (
     <Container component="main" maxWidth="xs">
@@ -62,13 +62,13 @@ function Auth() {
                     {
                         isSignup&&(
                             <>
-                                <Input name="firstname" label="First Name" handleChange={handleChange} autoFocus half/>
-                                <Input name="lastname" label="Last Name" handleChange={handleChange}  half/>
+                                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half/>
+                                <Input name="lastName" label="Last Name" handleChange={handleChange}  half/>
                             </>
                         )}
                         <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
                         <Input name="password" label="Password" handleChange={handleChange}  type={showPassword?"text":"password"} handleShowPassword={handleShowPassword}/> 
-                        {isSignup&&<Input name="confirm Password" label="Repeat Password" handleChange={handleChange} type="password"/>}
+                        {isSignup&&<Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/>}
                 </Grid>
                 <Button type="submit" fullWidth variant='contained' color="primary" className={classes.submit}>
                     {isSignup?'Sign Up':'Sign In'}
